@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-rose: #e08aa6;
+  --color-sky: #6fa3dc;
+  --color-candy: #f4b6d0;
+  --color-mauve: #e2a8bb;
+  --font-display: var(--font-chewy);
+  --font-hand: var(--font-fredoka);
+}
+
+body {
+  background: var(--color-mauve);
+}
+
+/* Chewy only has one weight, so we thicken it with an outline in the same colour */
+.font-display {
+  -webkit-text-stroke: 1px currentColor;
+  paint-order: stroke fill;
+  letter-spacing: 0.02em;
+}
+
+@keyframes wave-slide {
+  to { transform: translateX(-50%); }
+}
+.wave-slide {
+  animation: wave-slide var(--speed, 14s) linear infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50%      { transform: translateY(-16px) rotate(3deg); }
+}
+.float {
+  animation: float var(--dur, 5s) ease-in-out var(--delay, 0s) infinite;
+}
+
+/* Emoji pop when a button is clicked */
+@keyframes burst {
+  0%   { transform: translate(-50%, -50%) scale(0.3); opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.4) rotate(40deg); opacity: 0; }
+}
+.burst {
+  animation: burst 0.8s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave-slide, .float, .burst { animation: none; }
+}
+
+/* Stops the page from ever scrolling sideways on phones */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Pink gingham behind the receipt */
+.gingham {
+  background-color: #fbd3de;
+  background-image:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.45) 50%, transparent 50%),
+    linear-gradient(rgba(255, 255, 255, 0.45) 50%, transparent 50%);
+  background-size: 28px 28px;
+}
+
+/* Ruled lines in the notes box */
+.ruled {
+  line-height: 32px;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 31px,
+    #f4b6c8 31px,
+    #f4b6c8 32px
+  );
+}
