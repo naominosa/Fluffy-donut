@@ -43,7 +43,11 @@ async function sendWhatsApp(text: string): Promise<boolean> {
     `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(phone)}` +
     `&text=${encodeURIComponent(text)}&apikey=${encodeURIComponent(apikey)}`;
   const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
-  if (!res.ok) throw new Error(`WhatsApp failed (${res.status}): ${await res.text()}`);
+  const reply = (await res.text()).slice(0, 300);
+  console.log("CallMeBot reply:", res.status, reply);
+  if (!res.ok || /error|invalid/i.test(reply)) {
+    throw new Error(`WhatsApp failed (${res.status}): ${reply}`);
+  }
   return true;
 }
 
